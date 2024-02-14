@@ -33,18 +33,18 @@ npm i @use-gesture/vanilla
 
 ```svelte
 <script>
-	import { CardSwiper } from '$lib/CardSwiper';
+  import { CardSwiper } from '$lib/CardSwiper';
+
+  function data(index) {
+	return {
+	  title: 'Card ' + index,
+	  description: 'Description ' + index
+	};
+  }
 </script>
 
 <div class="h-screen w-screen">
-	<CardSwiper
-		cardData={(index) => {
-			return {
-				title: 'Card ' + index,
-				description: 'Description ' + index
-			};
-		}}
-	/>
+  <CardSwiper cardData={data} />
 </div>
 ```
 
@@ -58,23 +58,15 @@ You can control the cards programmatically by calling the swipe function.
 
 ```svelte
 <script>
-	import { CardSwiper } from '$lib/CardSwiper';
+  import { CardSwiper } from '$lib/CardSwiper';
 
-	let swipe: (direction?: 'left' | 'right') => void;
+  let swipe: (direction?: 'left' | 'right') => void;
 </script>
 
 <div class="h-screen w-screen">
-	<CardSwiper
-		cardData={(index) => {
-			return {
-				title: 'Card ' + index,
-				description: 'Description ' + index
-			};
-		}}
-		bind:swipe
-	/>
-	<button on:click={() => swipe('left')}>Swipe left</button>
-	<button on:click={() => swipe('right')}>Swipe right</button>
+  <CardSwiper bind:swipe />
+  <button on:click={() => swipe('left')}>Swipe left</button>
+  <button on:click={() => swipe('right')}>Swipe right</button>
 </div>
 ```
 
@@ -82,24 +74,20 @@ You can control the cards programmatically by calling the swipe function.
 
 ```svelte
 <script>
-	import { CardSwiper } from '$lib/CardSwiper';
+  import { CardSwiper } from '$lib/CardSwiper';
 
-	function onSwipe(event) {
-		// details: { direction: 'left' | 'right', index: number, element: HTMLElement, data: CardData }
-		console.log(event.details);
-	}
+  function onSwipe(event) {
+	// details: 
+	// direction: 'left' | 'right'
+	// index: number
+	// element: HTMLElement
+	// data: CardData
+	console.log(event.details);
+  }
 </script>
 
 <div class="h-screen w-screen">
-	<CardSwiper
-		cardData={(index) => {
-			return {
-				title: 'Card ' + index,
-				description: 'Description ' + index
-			};
-		}}
-		on:swipe={onSwipe}
-	/>
+  <CardSwiper on:swipe={onSwipe} />
 </div>
 ```
 
@@ -114,22 +102,12 @@ Show a threshold overlay when swiping like so:
 	let thresholdPassed = 0;
 </script>
 
-<CardSwiper
-	cardData={(index) => {
-		return {
-			title: 'Card ' + index,
-			description: 'Description ' + index
-		};
-	}}
-	bind:thresholdPassed
-/>
+<CardSwiper bind:thresholdPassed />
 
 {#if thresholdPassed !== 0}
-	<div
-		class="absolute w-full h-full inset-0 flex items-center justify-center text-9xl"
-	>
-		{thresholdPassed > 0 ? '👍' : '👎'}
-	</div>
+  <div class="absolute w-full h-full inset-0 flex items-center justify-center text-9xl">
+    {thresholdPassed > 0 ? '👍' : '👎'}
+  </div>
 {/if}
 ```
 
@@ -137,15 +115,9 @@ You can also set the minimum threshold as a percentage of the card width (defaul
 
 ```svelte
 <CardSwiper
-	cardData={(index) => {
-		return {
-			title: 'Card ' + index,
-			description: 'Description ' + index
-		};
-	}}
-	minSwipeDistance={0.3}
-	minSwipeVelocity={0.3}
-	bind:thresholdPassed
+  minSwipeDistance={0.3}
+  minSwipeVelocity={0.3}
+  bind:thresholdPassed
 />
 ```
 
