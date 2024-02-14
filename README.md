@@ -74,7 +74,7 @@ You can control the cards programmatically by calling the swipe function.
 </div>
 ```
 
-## Events
+### Events
 
 ```svelte
 <script>
@@ -99,9 +99,7 @@ You can control the cards programmatically by calling the swipe function.
 </div>
 ```
 
-## Other props
-
-### Threshold
+### Other props
 
 Show a threshold overlay when swiping like so:
 
