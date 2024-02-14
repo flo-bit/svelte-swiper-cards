@@ -33,7 +33,7 @@ npm i @use-gesture/vanilla
 
 ```svelte
 <script>
-  import { CardSwiper } from '$lib/CardSwiper';
+  import { CardSwiper } from '$lib/CardSwiper'
 
   let data = (index) => {
     return {
@@ -58,9 +58,9 @@ You can control the cards programmatically by calling the swipe function.
 
 ```svelte
 <script>
-  import { CardSwiper } from '$lib/CardSwiper';
+  import { CardSwiper } from '$lib/CardSwiper'
 
-  let swipe: (direction?: 'left' | 'right') => void;
+  let swipe: (direction?: 'left' | 'right') => void
 </script>
 
 <div class="h-screen w-screen">
@@ -74,15 +74,15 @@ You can control the cards programmatically by calling the swipe function.
 
 ```svelte
 <script>
-  import { CardSwiper } from '$lib/CardSwiper';
+  import { CardSwiper } from '$lib/CardSwiper'
 
   function onSwipe(event) {
-	// details: 
-	// direction: 'left' | 'right'
-	// index: number
-	// element: HTMLElement
-	// data: CardData
-	console.log(event.details);
+    // details: 
+    // direction: 'left' | 'right'
+    // index: number
+    // element: HTMLElement
+    // data: CardData
+    console.log(event.details)
   }
 </script>
 
@@ -93,13 +93,13 @@ You can control the cards programmatically by calling the swipe function.
 
 ### Other props
 
-Show a threshold overlay when swiping like so:
+Show a threshold overlay when swiping like so (set to 0 if no threshold reached, 1 if right threshold, -1 if left threshold is reached):
 
 ```svelte
 <script>
-	import { CardSwiper } from '$lib/CardSwiper';
+  import { CardSwiper } from '$lib/CardSwiper'
 
-	let thresholdPassed = 0;
+  let thresholdPassed = 0
 </script>
 
 <CardSwiper bind:thresholdPassed />
@@ -117,7 +117,6 @@ You can also set the minimum threshold as a percentage of the card width (defaul
 <CardSwiper
   minSwipeDistance={0.3}
   minSwipeVelocity={0.3}
-  bind:thresholdPassed
 />
 ```
 
