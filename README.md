@@ -5,6 +5,8 @@ Tinder-like swipeable cards for svelte.
 > [!NOTE]  
 > Still in active development. Expect breaking changes.
 
+[Try the demo here!](https://flo-bit.github.io/svelte-swiper-cards/)
+
 https://github.com/flo-bit/svelte-swiper-cards/assets/45694132/61077605-b6f8-4114-aaa3-5527d8887f99
 
 ## Features
