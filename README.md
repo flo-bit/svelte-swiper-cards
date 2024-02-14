@@ -35,11 +35,11 @@ npm i @use-gesture/vanilla
 <script>
   import { CardSwiper } from '$lib/CardSwiper';
 
-  function data(index) {
-	return {
-	  title: 'Card ' + index,
-	  description: 'Description ' + index
-	};
+  let data = (index) => {
+    return {
+      title: 'Card ' + index,
+      description: 'Description ' + index
+    }
   }
 </script>
 
