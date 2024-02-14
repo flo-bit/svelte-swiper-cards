@@ -3,7 +3,9 @@
 Tinder-like swipeable cards for svelte.
 
 > [!NOTE]  
-> In active development. Not ready for production.
+> Still in active development. Expect breaking changes.
+
+![demo video](./card-swiper-svelte.mp4)
 
 ## Features
 
