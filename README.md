@@ -15,7 +15,9 @@ Tinder-like swipeable cards for svelte.
 
 ## Installation
 
-- Copy `CardSwiper` folder from `src/libs` to your projects `lib` folder.
+- You need to have tailwind installed in your project, see [here for installation instructions](https://tailwindcss.com/docs/guides/sveltekit).
+
+- Copy the `CardSwiper` folder from `src/libs` to your projects `lib` folder.
 
 - Install dependency
 
@@ -72,13 +74,80 @@ You can control the cards programmatically by calling the swipe function.
 </div>
 ```
 
-## Todo
+## Events
 
-- Events
-- Examples
-- Refactor
-- Testing on multiple devices
-- Show optional overlay on cards when swiping
+```svelte
+<script>
+	import { CardSwiper } from '$lib/CardSwiper';
+
+	function onSwipe(event) {
+		// details: { direction: 'left' | 'right', index: number, element: HTMLElement, data: CardData }
+		console.log(event.details);
+	}
+</script>
+
+<div class="h-screen w-screen">
+	<CardSwiper
+		cardData={(index) => {
+			return {
+				title: 'Card ' + index,
+				description: 'Description ' + index
+			};
+		}}
+		on:swipe={onSwipe}
+	/>
+</div>
+```
+
+## Other props
+
+### Threshold
+
+Show a threshold overlay when swiping like so:
+
+```svelte
+<script>
+	import { CardSwiper } from '$lib/CardSwiper';
+
+	let thresholdPassed = 0;
+</script>
+
+<CardSwiper
+	cardData={(index) => {
+		return {
+			title: 'Card ' + index,
+			description: 'Description ' + index
+		};
+	}}
+	bind:thresholdPassed
+/>
+
+{#if thresholdPassed !== 0}
+	<div
+		class="absolute w-full h-full inset-0 flex items-center justify-center text-9xl"
+	>
+		{thresholdPassed > 0 ? '👍' : '👎'}
+	</div>
+{/if}
+```
+
+You can also set the minimum threshold as a percentage of the card width (default is 0.5) and the minimum speed (default is 0.5).
+
+```svelte
+<CardSwiper
+	cardData={(index) => {
+		return {
+			title: 'Card ' + index,
+			description: 'Description ' + index
+		};
+	}}
+	minSwipeDistance={0.3}
+	minSwipeVelocity={0.3}
+	bind:thresholdPassed
+/>
+```
+
+Per default Cards can be swiped with Arrow keys, too. You can disable this by setting `arrowKeys` to `false`.
 
 ## License
 

@@ -1,9 +1,10 @@
 export type CardData = {
-	title: string;
+	title?: string;
 	color?: string;
-	description: string;
+	description?: string;
 	image?: string;
 };
 
-export { default as Card } from './Card.svelte';
+export type Direction = 'left' | 'right';
+
 export { default as CardSwiper } from './CardSwiper.svelte';

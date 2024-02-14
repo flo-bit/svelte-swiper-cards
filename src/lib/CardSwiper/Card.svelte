@@ -1,12 +1,11 @@
 <script lang="ts">
+	import { fade } from "svelte/transition";
+
 	export let element: HTMLElement;
 
 	export let color: string = '';
-
 	export let title: string = '';
-
 	export let description: string = '';
-
 	export let image: string | undefined = undefined;
 </script>
 
@@ -14,9 +13,11 @@
 	class="w-full h-full absolute cursor-grab ease-in-out rounded-xl touch-none select-none border border-black bg-white {color}"
 	bind:this={element}
 >
-	{#if image}
-		<img class="w-full h-full rounded-xl object-cover" src={image} alt={title} />
-	{/if}
+	{#key image}
+		{#if image}
+			<img class="w-full h-full rounded-xl object-cover" src={image} alt={title} />
+		{/if}
+	{/key}
 	<div class="absolute inset-0 bg-gradient-to-t from-white/80 via-white/0 rounded-b-xl"></div>
 	<div class="p-4 absolute bottom-0 w-full flex justify-center">
 		<div class="flex items-center flex-col">
