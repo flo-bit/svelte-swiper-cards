@@ -1,8 +1,12 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { DragGesture, type FullGestureState } from '@use-gesture/vanilla';
+	import type { CardData, Direction } from '.';
 	import Card from './Card.svelte';
-	import type { CardData } from '.';
+
+	import { createEventDispatcher } from 'svelte';
+
+	const dispatch = createEventDispatcher();
 
 	let container: HTMLElement;
 
@@ -10,12 +14,8 @@
 	let card1Data: CardData, card2Data: CardData;
 
 	let cardIndex = 0;
-
 	let topCard: HTMLElement;
-
-	let currentZ = 10000;
-
-	let swiping = false;
+	let currentZ = 100000;
 
 	onMount(async () => {
 		card1Data = cardData(cardIndex++);
@@ -35,37 +35,45 @@
 	});
 
 	const cardSwiped = (el: HTMLElement, velocity: [number, number], movement: [number, number]) => {
+		// move card out of the view
 		el.classList.add('transition-transform', 'duration-300');
 
-		var moveOutWidth = document.body.clientWidth;
 
-		var endX = Math.max(Math.abs(velocity[0]) * moveOutWidth, moveOutWidth);
-		var toX = movement[0] > 0 ? endX : -endX;
-		var endY = Math.abs(velocity[1]) * moveOutWidth;
-		var toY = movement[1] > 0 ? endY : -endY;
-		var xMulti = movement[0] * 0.03;
-		var yMulti = movement[1] / 80;
-		var rotate = xMulti * yMulti;
+		let direction: Direction = movement[0] > 0 ? 'right' : 'left';
+		let data = el === card1 ? card1Data : card2Data;
+		dispatch('swiped', { direction, element: el, data, index: cardIndex - 2 });
+		thresholdPassed = movement[0] > 0 ? 1 : -1;
 
-		el.style.transform =
-			'translate(' + toX + 'px, ' + (toY + movement[1]) + 'px) rotate(' + rotate + 'deg)';
+		let moveOutWidth = document.body.clientWidth;
+
+		let endX = Math.max(Math.abs(velocity[0]) * moveOutWidth, moveOutWidth);
+		let toX = movement[0] > 0 ? endX : -endX;
+		let endY = Math.abs(velocity[1]) * moveOutWidth;
+		let toY = movement[1] > 0 ? endY : -endY;
+
+		let rotate = movement[0] * 0.03 * (movement[1] / 80);
+
+		el.style.transform = `translate(${toX}px, ${toY + movement[1]}px) rotate(${rotate}deg)`;
 
 		setTimeout(() => {
+			thresholdPassed = 0;
+
+			// move card back to start position at bottom of stack and update data
+			if (el === card1) {
+				card1Data = {};
+				card1Data = cardData(cardIndex++);
+				topCard = card2;
+			} else {
+				card2Data = {};
+				card2Data = cardData(cardIndex++);
+				topCard = card1;
+			}
+
 			currentZ--;
 			el.style.zIndex = currentZ.toString();
 
 			el.classList.remove('transition-transform', 'duration-300');
 			el.style.transform = '';
-
-			if (el === card1) {
-				card1Data = cardData(cardIndex++);
-				topCard = card2;
-			} else {
-				card2Data = cardData(cardIndex++);
-				topCard = card1;
-			}
-
-			swiping = false;
 		}, 350);
 	};
 
@@ -75,52 +83,66 @@
 			event: PointerEvent | MouseEvent | TouchEvent | KeyboardEvent;
 		}
 	) => {
-		swiping = true;
+		let elWidth = el.offsetWidth;
+
 		if (state.pressed) {
-			var xMulti = state.movement[0] * 0.03;
-			var yMulti = state.movement[1] / 80;
-			var rotate = xMulti * yMulti;
+			let rotate = state.movement[0] * 0.03 * (state.movement[1] / 80);
 
-			el.style.transform =
-				'translate(' +
-				state.movement[0] +
-				'px, ' +
-				state.movement[1] +
-				'px) rotate(' +
-				rotate +
-				'deg)';
-		} else {
-			var keep = Math.abs(state.movement[0]) < 40 || Math.abs(state.velocity[0]) < 0.5;
+			el.style.transform = `translate(${state.movement[0]}px, ${state.movement[1]}px) rotate(${rotate}deg)`;
 
-			if (keep) {
-				el.classList.add('transition-transform', 'duration-300');
-				el.style.transform = '';
-				setTimeout(() => {
-					el.classList.remove('transition-transform', 'duration-300');
-				}, 300);
+			if(Math.abs(state.movement[0]) / elWidth > minSwipeDistance) {
+				thresholdPassed = state.movement[0] > 0 ? 1 : -1;
 			} else {
-				cardSwiped(el, state.velocity, state.movement);
+				thresholdPassed = 0;
 			}
+			return;
+		}
+		// if dragging is finished
+		let keep =
+			Math.abs(state.movement[0]) / elWidth < minSwipeDistance &&
+			Math.abs(state.velocity[0]) < minSwipeVelocity;
+	
+		if (keep) {
+			thresholdPassed = 0;
+			el.classList.add('transition-transform', 'duration-300');
+			el.style.transform = '';
+			setTimeout(() => {
+				el.classList.remove('transition-transform', 'duration-300');
+			}, 300);
+		} else {
+			cardSwiped(el, state.velocity, state.movement);
 		}
 	};
 
-	export const swipe = (direction: 'left' | 'right' = 'right') => {
-		cardSwiped(topCard, [direction === 'left' ? -1 : 1, 0.1], [direction === 'left' ? -1 : 1, 1]);
+	export const swipe = (direction: Direction = 'right') => {
+		if(thresholdPassed !== 0) return;
+
+		let dir = direction === 'left' ? -1 : 1;
+		cardSwiped(topCard, [dir, 0.1], [dir, 1]);
 	};
 
-	export let cardData = (index: number): CardData => {
-		return {
-			title: index.toString(),
-			color: index % 2 === 0 ? 'bg-blue-300' : 'bg-green-300',
-			description: 'This is card ' + index,
-			image: '/profiles/' + (index % 14) + '.png'
-		};
-	};
+	export let cardData: (index: number) => CardData;
+
+	export let minSwipeDistance: number = 0.5;
+	export let minSwipeVelocity: number = 0.5;
+
+	export let arrowKeys = true;
+	
+	export let thresholdPassed = 0;
 </script>
+
+<svelte:body on:keydown={(e) => {
+	if(!arrowKeys) return;
+	if (e.key === 'ArrowLeft') {
+		swipe('left');
+	} else if (e.key === 'ArrowRight') {
+		swipe('right');
+	}
+}} />
 
 <div class="w-full h-full">
 	<div class="w-full h-full relative hidden z-0" bind:this={container}>
-		<Card bind:element={card1} {...card1Data} />
-		<Card bind:element={card2} {...card2Data} />
+		<svelte:component this={Card} bind:element={card1} {...card1Data} />
+		<svelte:component this={Card} bind:element={card2} {...card2Data} />
 	</div>
 </div>
