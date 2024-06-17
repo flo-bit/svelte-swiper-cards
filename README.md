@@ -5,7 +5,7 @@ Tinder-like swipeable cards for svelte.
 > [!NOTE]  
 > Still in active development. Expect breaking changes.
 
-[Try the demo here!](https://flo-bit.github.io/svelte-swiper-cards/)
+[Try the simple demo here!](https://flo-bit.github.io/svelte-swiper-cards/simple-demo)
 
 https://github.com/flo-bit/svelte-swiper-cards/assets/45694132/61077605-b6f8-4114-aaa3-5527d8887f99
 
@@ -93,6 +93,8 @@ You can control the cards programmatically by calling the swipe function.
 
 ### Other props
 
+#### thresholdPassed
+
 Show a threshold overlay when swiping like so (set to 0 if no threshold reached, 1 if right threshold, -1 if left threshold is reached):
 
 ```svelte
@@ -111,6 +113,8 @@ Show a threshold overlay when swiping like so (set to 0 if no threshold reached,
 {/if}
 ```
 
+#### minSwipeDistance, minSwipeVelocity
+
 You can also set the minimum threshold as a percentage of the card width (default is 0.5) and the minimum speed (default is 0.5).
 
 ```svelte
@@ -120,7 +124,13 @@ You can also set the minimum threshold as a percentage of the card width (defaul
 />
 ```
 
+#### arrowKeys
+
 Per default Cards can be swiped with Arrow keys, too. You can disable this by setting `arrowKeys` to `false`.
+
+#### anchor
+
+if you want the user to just be able to move the card left or right in a curve, set the anchor to a high number (at least 1000, recommended >5000).
 
 ## License
 

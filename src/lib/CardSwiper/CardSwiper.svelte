@@ -38,7 +38,6 @@
 		// move card out of the view
 		el.classList.add('transition-transform', 'duration-300');
 
-
 		let direction: Direction = movement[0] > 0 ? 'right' : 'left';
 		let data = el === card1 ? card1Data : card2Data;
 		dispatch('swiped', { direction, element: el, data, index: cardIndex - 2 });
@@ -88,6 +87,16 @@
 		if (state.pressed) {
 			let rotate = state.movement[0] * 0.03 * (state.movement[1] / 80);
 
+			// fix movement on a curved path if anchor is set
+			if (anchor) {
+				let vec = [state.movement[0], state.movement[1] - anchor];
+				let len = Math.sqrt(vec[0] ** 2 + vec[1] ** 2);
+				vec = [vec[0] / len * anchor, vec[1] / len * anchor];
+
+				state.movement[0] = vec[0];
+				state.movement[1] = vec[1] + anchor;
+			}
+
 			el.style.transform = `translate(${state.movement[0]}px, ${state.movement[1]}px) rotate(${rotate}deg)`;
 
 			if(Math.abs(state.movement[0]) / elWidth > minSwipeDistance) {
@@ -129,6 +138,8 @@
 	export let arrowKeys = true;
 	
 	export let thresholdPassed = 0;
+
+	export let anchor: number | null = null;
 </script>
 
 <svelte:body on:keydown={(e) => {
