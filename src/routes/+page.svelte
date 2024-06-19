@@ -1,63 +1,6 @@
 <script lang="ts">
-	import { CardSwiper } from '$lib/CardSwiper';
-	import { fade } from 'svelte/transition';
+	import Demo from "$lib/Demo.svelte";
 
-	let swipe: (direction?: 'left' | 'right') => void;
-
-	let people = [
-		{
-			name: 'Lucas',
-			age: 40,
-			description: 'Loves to dance in the rain.'
-		},
-		{
-			name: 'Benjamin',
-			age: 28,
-			description: 'Eats pizza with a fork.'
-		},
-		{
-			name: 'Noah',
-			age: 49,
-			description: 'Talks to plants.'
-		},
-		{
-			name: 'Emily',
-			age: 45,
-			description: 'Sleeps with socks on.'
-		},
-		{
-			name: 'Ava',
-			age: 43,
-			description: 'Thinks they can speak to animals.'
-		},
-		{
-			name: 'Sophia',
-			age: 23,
-			description: 'Obsessed with organizing.'
-		},
-		{
-			name: 'Charlotte',
-			age: 41,
-			description: 'Afraid of shadows.'
-		},
-		{
-			name: 'Olivia',
-			age: 23,
-			description: 'Collects rare pebbles.'
-		},
-		{
-			name: 'Isabella',
-			age: 42,
-			description: 'Always forgets why they walked into a room.'
-		},
-		{
-			name: 'Jacob',
-			age: 24,
-			description: 'Can recite movies backwards.'
-		}
-	];
-
-	let thresholdPassed = 0;
 </script>
 
 <div class="bg-white">
@@ -92,9 +35,9 @@
 			/>
 		</svg>
 		<div
-			class="mx-auto max-w-7xl px-6 py-0 flex-col md:flex-row flex md:items-center md:gap-x-10 md:px-8 md:py-12"
+			class="mx-auto max-w-7xl px-6 py-4 flex-col md:flex-row flex md:items-center md:gap-x-10 md:px-8 md:py-12"
 		>
-			<div class="order-2 md:order-1 mx-auto max-w-2xl md:mx-0 md:flex-auto mb-16 sm:mb-0">
+			<div class="mx-auto max-w-2xl md:mx-0 md:flex-auto mb-16 sm:mb-0">
 				<h1 class="mt-10 max-w-lg text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
 					Svelte Swiper Cards
 				</h1>
@@ -110,78 +53,28 @@
 					>
 				</div>
 			</div>
-			<div class="mt-8 order-1 sm:mt-8 md:mt-0 md:flex-shrink-0 md:flex-grow">
-				<svg
-					viewBox="0 0 366 729"
-					role="img"
-					class="mx-auto w-[22.875rem] max-w-full drop-shadow-xl"
-				>
-					<title>App screenshot</title>
-					<defs>
-						<clipPath id="2ade4387-9c63-4fc4-b754-10e687a0d332">
-							<rect width="316" height="684" rx="36" />
-						</clipPath>
-					</defs>
-					<path
-						fill="#f87171"
-						d="M363.315 64.213C363.315 22.99 341.312 1 300.092 1H66.751C25.53 1 3.528 22.99 3.528 64.213v44.68l-.857.143A2 2 0 0 0 1 111.009v24.611a2 2 0 0 0 1.671 1.973l.95.158a2.26 2.26 0 0 1-.093.236v26.173c.212.1.398.296.541.643l-1.398.233A2 2 0 0 0 1 167.009v47.611a2 2 0 0 0 1.671 1.973l1.368.228c-.139.319-.314.533-.511.653v16.637c.221.104.414.313.56.689l-1.417.236A2 2 0 0 0 1 237.009v47.611a2 2 0 0 0 1.671 1.973l1.347.225c-.135.294-.302.493-.49.607v377.681c0 41.213 22 63.208 63.223 63.208h95.074c.947-.504 2.717-.843 4.745-.843l.141.001h.194l.086-.001 33.704.005c1.849.043 3.442.37 4.323.838h95.074c41.222 0 63.223-21.999 63.223-63.212v-394.63c-.259-.275-.48-.796-.63-1.47l-.011-.133 1.655-.276A2 2 0 0 0 366 266.62v-77.611a2 2 0 0 0-1.671-1.973l-1.712-.285c.148-.839.396-1.491.698-1.811V64.213Z"
-					/>
-					<path
-						fill="#dc2626"
-						d="M16 59c0-23.748 19.252-43 43-43h246c23.748 0 43 19.252 43 43v615c0 23.196-18.804 42-42 42H58c-23.196 0-42-18.804-42-42V59Z"
-					/>
-					<foreignObject
-						width="316"
-						height="684"
-						transform="translate(24 24)"
-						clip-path="url(#2ade4387-9c63-4fc4-b754-10e687a0d332)"
-					>
-						<div
-							class="h-full w-full p-2 flex items-center justify-center overflow-hidden bg-red-200"
-						>
-							<div class="w-full h-full max-w-xl relative">
-								<CardSwiper
-									bind:swipe
-									cardData={(index) => {
-										let i = Math.floor(Math.random() * people.length);
-										let j = Math.floor(Math.random() * people.length);
-										return {
-											title: people[i].name + ', ' + people[i].age,
-											description: people[j].description,
-											image: `/svelte-swiper-cards/profiles/${index % 14}.png`
-										};
-									}}
-									on:swiped={(e) => {
-										console.log(e.detail);
-									}}
-									bind:thresholdPassed
-								/>
+			<div class="sm:mt-8 md:mt-0 md:flex-shrink-0 md:flex-grow scale-75 -mt-32 md:scale-100">
+				<div class=" mx-auto h-[712px] w-[350px] max-w-full rounded-[60px] bg-rose-500 relative">
+					<div class="absolute top-20 h-8 w-3 bg-rose-500 -left-0.5 rounded-sm"></div>
+					<div class="absolute top-[140px] h-14 w-3 bg-rose-500 -left-[3px] rounded-sm"></div>
+					<div class="absolute top-[210px] h-14 w-3 bg-rose-500 -left-[3px] rounded-sm"></div>
+					<div class="absolute top-[180px] h-20 w-3 bg-rose-500 -right-[3px] rounded-sm"></div>
 
-								<button
-									class="absolute bottom-1 left-1 p-3 px-4 bg-white/50 backdrop-blur-sm rounded-full z-10 text-3xl"
-									on:click={() => swipe('left')}
-								>
-									👎
-								</button>
-								<button
-									class="absolute bottom-1 right-1 p-3 px-4 bg-white/50 backdrop-blur-sm rounded-full z-10 text-3xl"
-									on:click={() => swipe('right')}
-								>
-									👍
-								</button>
-							</div>
 
-							{#if thresholdPassed !== 0}
-								<div
-									transition:fade={{ duration: 200 }}
-									class="absolute w-full h-full inset-0 bg-white/20 backdrop-blur-sm flex items-center justify-center text-9xl pointer-events-none"
-								>
-									{thresholdPassed > 0 ? '👍' : '👎'}
-								</div>
-							{/if}
+					<div class="absolute top-[18px] z-10 flex justify-center w-full">
+
+						<div class="h-7 w-24 bg-black rounded-full"></div>
+					</div>
+
+					<div class="absolute top-[180px] h-20 w-3 bg-rose-500 -right-[3px] rounded-sm"></div>
+
+
+					<div class="absolute inset-0 w-full h-full p-3">
+						<div class="bg-rose-200 w-full h-full rounded-[50px] overflow-hidden relative">
+							<Demo />
 						</div>
-					</foreignObject>
-				</svg>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
