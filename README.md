@@ -1,9 +1,6 @@
 # svelte-swiper-cards
 
-Tinder-like swipeable cards for svelte.
-
-> [!NOTE]  
-> Still in active development. Expect breaking changes.
+Tinder-like swipeable cards component for svelte.
 
 [Try the simple demo here!](https://flo-bit.github.io/svelte-swiper-cards/simple-demo)
 
@@ -11,19 +8,19 @@ https://github.com/flo-bit/svelte-swiper-cards/assets/45694132/61077605-b6f8-411
 
 ## Features
 
-- Built with tailwind
-- Reuses cards (only two cards, that are swapped)
-- Customizable (customize the card)
-- Modern: uses @use-gesture/vanilla for gesture handling
-- TypeScript
+- Built with **tailwind**
+- **Reuses cards** (only two cards, that are swapped)
+- **Customizable** (easily customize the card ui and data)
+- **Modern**: uses @use-gesture/vanilla for gesture handling
+- Uses **TypeScript**
 
 ## Installation
 
 - You need to have tailwind installed in your project, see [here for installation instructions](https://tailwindcss.com/docs/guides/sveltekit).
 
-- Copy the `CardSwiper` folder from `src/libs` to your projects `lib` folder.
+- Download the [`CardSwiper`](https://download-directory.github.io/?url=https%3A%2F%2Fgithub.com%2Fflo-bit%2Fsvelte-swiper-cards%2Ftree%2Fmain%2Fsrc%2Flib%2FCardSwiper) folder from `src/libs` to your projects `src/lib` folder.
 
-- Install dependency
+- Install dependency `@use-gesture/vanilla`
 
 ```bash
 npm i @use-gesture/vanilla
