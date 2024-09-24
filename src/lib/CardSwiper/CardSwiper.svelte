@@ -1,12 +1,8 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { DragGesture, type FullGestureState } from '@use-gesture/vanilla';
-	import type { CardData, Direction } from '.';
+	import type { CardData, Direction, SwipeEventData } from '.';
 	import Card from './Card.svelte';
-
-	import { createEventDispatcher } from 'svelte';
-
-	const dispatch = createEventDispatcher();
 
 	let container: HTMLElement;
 
@@ -40,7 +36,9 @@
 
 		let direction: Direction = movement[0] > 0 ? 'right' : 'left';
 		let data = el === card1 ? card1Data : card2Data;
-		dispatch('swiped', { direction, element: el, data, index: cardIndex - 2 });
+
+		if (onSwipe) onSwipe({ direction, element: el, data, index: cardIndex - 2 });
+
 		thresholdPassed = movement[0] > 0 ? 1 : -1;
 
 		let moveOutWidth = document.body.clientWidth;
@@ -91,7 +89,7 @@
 			if (anchor) {
 				let vec = [state.movement[0], state.movement[1] - anchor];
 				let len = Math.sqrt(vec[0] ** 2 + vec[1] ** 2);
-				vec = [vec[0] / len * anchor, vec[1] / len * anchor];
+				vec = [(vec[0] / len) * anchor, (vec[1] / len) * anchor];
 
 				state.movement[0] = vec[0];
 				state.movement[1] = vec[1] + anchor;
@@ -99,7 +97,7 @@
 
 			el.style.transform = `translate(${state.movement[0]}px, ${state.movement[1]}px) rotate(${rotate}deg)`;
 
-			if(Math.abs(state.movement[0]) / elWidth > minSwipeDistance) {
+			if (Math.abs(state.movement[0]) / elWidth > minSwipeDistance) {
 				thresholdPassed = state.movement[0] > 0 ? 1 : -1;
 			} else {
 				thresholdPassed = 0;
@@ -110,7 +108,7 @@
 		let keep =
 			Math.abs(state.movement[0]) / elWidth < minSwipeDistance &&
 			Math.abs(state.velocity[0]) < minSwipeVelocity;
-	
+
 		if (keep) {
 			thresholdPassed = 0;
 			el.classList.add('transition-transform', 'duration-300');
@@ -124,11 +122,13 @@
 	};
 
 	export const swipe = (direction: Direction = 'right') => {
-		if(thresholdPassed !== 0) return;
+		if (thresholdPassed !== 0) return;
 
 		let dir = direction === 'left' ? -1 : 1;
 		cardSwiped(topCard, [dir, 0.1], [dir, 1]);
 	};
+
+	export let onSwipe: ((cardInfo: SwipeEventData) => void) | undefined = undefined;
 
 	export let cardData: (index: number) => CardData;
 
@@ -136,20 +136,22 @@
 	export let minSwipeVelocity: number = 0.5;
 
 	export let arrowKeys = true;
-	
+
 	export let thresholdPassed = 0;
 
 	export let anchor: number | null = null;
 </script>
 
-<svelte:body on:keydown={(e) => {
-	if(!arrowKeys) return;
-	if (e.key === 'ArrowLeft') {
-		swipe('left');
-	} else if (e.key === 'ArrowRight') {
-		swipe('right');
-	}
-}} />
+<svelte:body
+	on:keydown={(e) => {
+		if (!arrowKeys) return;
+		if (e.key === 'ArrowLeft') {
+			swipe('left');
+		} else if (e.key === 'ArrowRight') {
+			swipe('right');
+		}
+	}}
+/>
 
 <div class="w-full h-full">
 	<div class="w-full h-full relative hidden z-0" bind:this={container}>

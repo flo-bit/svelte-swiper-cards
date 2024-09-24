@@ -1,6 +1,5 @@
 <script>
-	import Demo from "$lib/Demo.svelte";
-
+	import Demo from '$lib/demo/Demo.svelte';
 </script>
 
 <div class="w-screen h-[100dvh]">

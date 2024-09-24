@@ -1,16 +1,13 @@
 <script lang="ts">
-	import { fade } from "svelte/transition";
-
 	export let element: HTMLElement;
 
-	export let color: string = '';
 	export let title: string = '';
 	export let description: string = '';
 	export let image: string | undefined = undefined;
 </script>
 
 <div
-	class="w-full h-full absolute cursor-grab ease-in-out rounded-xl touch-none select-none border border-black bg-white {color}"
+	class="w-full h-full absolute cursor-grab ease-in-out rounded-xl touch-none select-none border border-black bg-white"
 	bind:this={element}
 >
 	{#key image}

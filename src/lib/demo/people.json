@@ -1,0 +1,52 @@
+[
+	{
+		"name": "Lucas",
+		"age": 40,
+		"description": "Loves to dance in the rain."
+	},
+	{
+		"name": "Benjamin",
+		"age": 28,
+		"description": "Eats pizza with a fork."
+	},
+	{
+		"name": "Noah",
+		"age": 49,
+		"description": "Talks to plants."
+	},
+	{
+		"name": "Emily",
+		"age": 45,
+		"description": "Sleeps with socks on."
+	},
+	{
+		"name": "Ava",
+		"age": 43,
+		"description": "Thinks they can speak to animals."
+	},
+	{
+		"name": "Sophia",
+		"age": 23,
+		"description": "Obsessed with organizing."
+	},
+	{
+		"name": "Charlotte",
+		"age": 41,
+		"description": "Afraid of shadows."
+	},
+	{
+		"name": "Olivia",
+		"age": 23,
+		"description": "Collects rare pebbles."
+	},
+	{
+		"name": "Isabella",
+		"age": 42,
+		"description": "Always forgets why they walked into a room."
+	},
+	{
+		"name": "Jacob",
+		"age": 24,
+		"description": "Can recite movies backwards."
+	}
+]
