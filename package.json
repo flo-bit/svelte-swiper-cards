@@ -1,7 +1,7 @@
 {
 	"name": "svelte-swiper-cards",
 	"version": "0.0.2",
-	"private": true,
+	"private": false,
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build",
