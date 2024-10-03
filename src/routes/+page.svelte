@@ -48,8 +48,16 @@
 					<a
 						href="https://github.com/flo-bit/svelte-swiper-cards/"
 						target="_blank"
-						class="text-sm font-semibold leading-6 text-red-700"
+						class="text-lg font-semibold leading-6 text-rose-950 bg-rose-400 px-5 py-4 rounded-xl"
 						>Get code <span aria-hidden="true">→</span></a
+					>
+				</div>
+				<div class="mt-10 flex items-center gap-x-6">
+					<a
+						href="https://flo-bit.dev"
+						target="_blank"
+						class="text-sm font-semibold leading-6 text-rose-700"
+						>made by flo-bit</a
 					>
 				</div>
 			</div>
