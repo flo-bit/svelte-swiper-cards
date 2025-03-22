@@ -82,7 +82,7 @@
 	) => {
 		let elWidth = el.offsetWidth;
 
-		if (state.pressed) {
+		if (state.active) {
 			let rotate = state.movement[0] * 0.03 * (state.movement[1] / 80);
 
 			// fix movement on a curved path if anchor is set
